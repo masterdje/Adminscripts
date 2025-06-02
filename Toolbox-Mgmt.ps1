@@ -1,0 +1,165 @@
+#-----------------Toolbox Management
+#-------------------DSIN/SYS/JD-----
+
+
+function List-Function ($filename)
+{
+cat $filename | Select-String -pattern "function" | sort
+}
+
+
+function Get-OnlineTest()
+{
+    Param
+    (
+        $Computername
+    )
+
+    try
+    {
+        $connexion = Test-Connection -computername $Computername -Count 1 -ErrorAction stop        
+    }
+        catch [System.Net.NetworkInformation.PingException]
+    {
+        return "$Computername offline"
+    }
+        #Write-Host "$Computername online"
+}
+
+
+function Get-WinRMTest()
+{
+    Param
+    (
+        $Computername
+    )
+
+	$connexion = Test-WSMan $computername -ea 0
+	if (!$connexion) {return "$Computername offline" } else {}
+        #Write-Host "$Computername online"
+}
+
+
+
+function TimePing ()
+{
+    Param
+    (
+        $computername
+    )
+
+    try
+    {
+	while ($true)
+        {
+		$connexion = Test-Connection -computername $Computername -Count 1 -ErrorAction stop
+        write-host "$(get-date)" $connexion.destination $connexion.ipv4Address $connexion.responsetime
+		}
+		
+    }
+        catch [System.Net.NetworkInformation.PingException]
+    {
+        return "$Computername offline"
+    }
+       
+}
+
+function Add-log
+{
+	param ($strlogfile, $logtext)
+
+	try
+	{
+		Add-content -encoding UTF8 -path $strlogfile -value((get-date).tostring() + " , " +  $logtext)
+	}
+	catch [Exception]
+		{Add-content -encoding UTF8 -path "LogErrors.csv" -value((get-date).tostring() + " , " +  $_.Exception.Message)}
+}
+
+function Git-Save ($Message)
+{   $date= get-date
+    $message = "MAJ: " +  $message + " " + $date
+	. git add *
+	. git commit -m $message
+	. git push
+}
+
+function Git-Load
+{
+	. git pull
+}
+
+function Git-Check
+{
+    if (((. git status) | select-string -Pattern ".ps1").count -ne 0){write-host "Git Save nécessaire !"}
+}
+
+
+function Write-Color([String[]]$Text, [ConsoleColor[]]$Color) {
+    for ($i = 0; $i -lt $Text.Length; $i++) {
+        Write-Host $Text[$i] -Foreground $Color[$i] -NoNewLine
+    }
+    Write-Host
+}
+
+function Remove-StringSpecialCharacters
+{
+   param ([string]$String)
+
+   Begin{}
+
+   Process {
+
+      $String = [Text.Encoding]::ASCII.GetString([Text.Encoding]::GetEncoding("Cyrillic").GetBytes($String))
+
+      $String = $String -replace '-', '' `
+                        -replace ' ', '' `
+                        -replace '/', '' `
+                        -replace '\*', '' `
+                        -replace "'", "" 
+   }
+
+   End{
+      return $String
+      }
+}
+function SleepBar ( $timer , $Description )
+{
+    #timer = des secondes ... 
+    $interval = ($timer*10) 
+    for ($i = 1; $i -le 100; $i++ ) {                                                               
+        Write-Progress -Activity $Description -Status "$i% Complete:" -PercentComplete $i
+        Start-Sleep -Milliseconds $interval
+    }
+}
+
+function Convert-RGBtoABGR {
+     param (
+         [Parameter(Mandatory=$true)]
+         [ValidateRange(0,255)]
+         [int]$R,
+         [Parameter(Mandatory=$true)]
+         [ValidateRange(0,255)]
+         [int]$G,
+         [Parameter(Mandatory=$true)]
+         [ValidateRange(0,255)]
+         [int]$B
+     )
+
+     # Convertir chaque composant en hexadécimal sur 2 chiffres
+     $hexR = '{0:X2}' -f $R
+     $hexG = '{0:X2}' -f $G
+     $hexB = '{0:X2}' -f $B
+
+     # Canal alpha toujours FF
+     $alpha = 'FF'
+
+     # Format ABGR : Alpha + Blue + Green + Red
+     $abgr = "$alpha$hexB$hexG$hexR"
+     return $abgr
+ }
+
+ function Set-AsAdmin()
+{
+		if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+}

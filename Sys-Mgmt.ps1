@@ -1,4 +1,10 @@
-﻿function Sys-banner()
+﻿#-----------------SYS Management
+#-----------------DSIN/SYS/JD---
+
+. .\Toolbox-Mgmt.ps1
+$logFile = "log-m365.txt"
+
+function Sys-banner()
 {
 	$OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8 
 	
@@ -11,7 +17,7 @@
 	write-host -foregroundcolor blue "██      ██████  ██████      ███  ████  ███      ███  ████  █████  ████"
 	write-host -foregroundcolor blue "██████████████████████████████████████████████████████████████████████"
 	#https://patorjk.com/software/taag/#p=display&f=Shaded%20Blocky&t=MGMT
-}                                                                     
+}                                       
 
 <#
 #https://github.com/fleschutz/PowerShell/blob/main/scripts/write-animated.ps1
@@ -40,17 +46,36 @@ function Update-All()
 	}
 }
 
-function Set-AsAdmin()
-{
-		if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
-}
-
-
-Function SysMgmt-Do-itNow()
+Function SysMgmt-Update-itNow()
 {
 	. set-AsAdmin
 	. Sys-banner
 	. Update-All
 }
 
-. SysMgmt-Do-itNow
+Function Fresh-Install()
+{
+	. Set-AsAdmin
+	Set-ExecutionPolicy -ExecutionPolicy unrestricted
+	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+
+	# Outils
+	. winget install -e --id Microsoft.PowerShell
+	. winget install -e --id Microsoft.VisualStudioCode
+	. winget install -e --id Git.Git
+	. winget install -e --id KeePassXCTeam.KeePassXC
+	. winget install -e --id Notepad++.Notepad++
+	. winget install -e --id GIMP.GIMP
+	. winget install -e --id CPUID.HWMonitor
+	. winget install -e --id Microsoft.PowerToys
+	. winget install -e --id Opera.OperaGX
+ 
+	#Modules PS
+	install-module activedirectory -Repository PSGallery -Scope AllUsers -Force -AllowClobber
+	install-module Exchangeonline -Repository PSGallery -Scope AllUsers -Force -AllowClobber
+	install-module Microsoft.Graph -Repository PSGallery -Scope AllUsers -Force -AllowClobber
+	Install-Module -Name Microsoft.Entra -Repository PSGallery -Scope AllUsers -Force -AllowClobber
+
+	. winget upgrade --all
+}
+
