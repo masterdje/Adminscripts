@@ -2,7 +2,7 @@
 #-----------------DSIN/SYS/JD---
 
 . .\Toolbox-Mgmt.ps1
-$logFile = "log-m365.txt"
+$logFile = "log-Sys.txt"
 
 function Sys-banner()
 {
