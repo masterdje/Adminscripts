@@ -67,14 +67,8 @@ function TimePing ()
 function Add-log
 {
 	param ($strlogfile, $logtext)
-<#
 	try
 	{
-		Add-content -encoding UTF8 -path $strlogfile -value((get-date).tostring() + " , " +  $logtext)
-	}
-	catch [Exception]
-		{Add-content -encoding UTF8 -path "LogErrors.csv" -value((get-date).tostring() + " , " +  $_.Exception.Message)}
-#>		
 		[PSCustomObject] $cuLog = ""
 		[PSCustomObject] $cuLog =@()
 		$callStack = Get-PSCallStack
@@ -85,13 +79,25 @@ function Add-log
 			Log =  $logtext
 		}
 		$cuLog | Export-Csv -encoding UTF8 -path $strlogfile -append 
+	}
+	catch [Exception]
+	{
+		Add-content -encoding UTF8 -path "LogErrors.csv" -value((get-date).tostring() + " , " +  $_.Exception.Message)
+	}
 }
 
 function Create-Logfile()
 {
-	$log = $PSCommandPath
-	$file ="_Log-" + (($log.Split("\") |sort -Descending)[0]) -replace "-Mgmt.ps1",".txt"
-	return $file
+	try
+	{
+		$log = $PSCommandPath
+		$file ="_Log-" + (($log.Split("\") |sort -Descending)[0]) -replace "-Mgmt.ps1",".txt"
+		return $file
+	}
+	catch
+	{
+		$Error.Exception.Message
+	}
 }
 
 
