@@ -88,10 +88,11 @@ function Add-log
 
 function Create-Logfile()
 {
-	try
+	write-host ( . Get-PSCallStack )
+    try
 	{
-		$log = $PSCommandPath
-		$file ="_Log-" + (($log.Split("\") |sort -Descending)[0]) -replace "-Mgmt.ps1",".txt"
+		$cmdpath = $PSCommandPath
+		$file ="_Log-" + ($cmdpath.Split("\"))[-1] -replace "-Mgmt.ps1",".txt"
 		return $file
 	}
 	catch
