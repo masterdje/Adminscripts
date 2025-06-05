@@ -1,8 +1,0 @@
-"Date","Invocation","Log"
-"02/06/2025 23:03:00","Epub-Banner","mon test epub banner"
-"02/06/2025 23:03:02","Epub-Banner","mon test epub banner"
-"02/06/2025 23:03:03","Epub-Banner","mon test epub banner"
-"02/06/2025 23:03:04","Epub-Banner","mon test epub banner"
-"02/06/2025 23:03:05","Epub-Banner","mon test epub banner"
-"02/06/2025 23:03:05","Epub-Banner","mon test epub banner"
-"03/06/2025 23:48:58","Epub-Banner","mon test epub banner"
