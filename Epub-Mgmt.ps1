@@ -3,11 +3,11 @@
 
 . .\Toolbox-Mgmt.ps1
 $logFile = . create-Logfile
-$log = . create-Logfile
+
 
 function Epub-Banner()
 {
-	. Add-log $logfile "mon test epub banner"
+	. Add-log $logfile "Epub Banner"
 	#https://patorjk.com/software/taag/#p=display&f=Shaded%20Blocky&t=MGMT
 	$OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8 
 	write-host -foregroundcolor blue "╔░ JD /  AdminScripts ░╗"

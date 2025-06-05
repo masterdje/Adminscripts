@@ -2,10 +2,11 @@
 #-----------------DSIN/SYS/JD---
 
 . .\Toolbox-Mgmt.ps1
-$logFile = "log-Sys.txt"
+$logFile = . create-Logfile
 
 function Sys-banner()
 {
+	. Add-log $logfile "Sys-Banner"
 	$OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8 
 	
 	write-host -foregroundcolor blue "╔░ JD /  AdminScripts ░╗"
