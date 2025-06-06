@@ -82,7 +82,9 @@ function Add-log
 	}
 	catch [Exception]
 	{
-		Add-content -encoding UTF8 -path "LogErrors.csv" -value((get-date).tostring() + " , " +  $_.Exception.Message)
+	
+	Add-content -encoding UTF8 -path "LogErrors.csv" -value((get-date).tostring() + " , " +  $_.Exception.Message)
+	
 	}
 }
 
