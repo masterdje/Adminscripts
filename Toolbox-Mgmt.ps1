@@ -110,13 +110,21 @@ function Get-Context()
 		$callstack = Get-PSCallStack
 		$cmdpath = $callstack[-2].command
 		$context= $cmdpath -replace "-Mgmt.ps1",""
+		
+		[PSCustomObject] $cuCtxt =@()
+		$cuCtxt += [PSCustomObject] @{
+			Ctxt = $context
+			logfile = $logfile
+		}
+		
+		
 	}
 	catch [Exception]
 	{
 		$Error.Exception.Message
 		$context="default"
 	}
-	return $context
+	return $cuctxt
 	
 }
 
