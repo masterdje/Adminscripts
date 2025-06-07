@@ -97,12 +97,28 @@ function Create-Logfile()
 		$file ="_Log-" + $cmdpath -replace "-Mgmt.ps1",".txt"
 		return $file
 	}
-	catch
+	catch [Exception]
 	{
 		$Error.Exception.Message
 	}
 }
 
+function Get-Context()
+{
+	try
+	{
+		$callstack = Get-PSCallStack
+		$cmdpath = $callstack[-2].command
+		$context= $cmdpath -replace "-Mgmt.ps1",""
+	}
+	catch [Exception]
+	{
+		$Error.Exception.Message
+		$context="default"
+	}
+	return $context
+	
+}
 
 function Git-Save ($Message)
 {   $date= get-date

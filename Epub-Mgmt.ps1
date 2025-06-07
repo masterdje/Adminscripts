@@ -3,10 +3,12 @@
 
 . .\Toolbox-Mgmt.ps1
 $logFile = . create-Logfile
+. get-Context
 
 
 function Epub-Banner()
 {
+	write-host $script:logfile
 	. Add-log $logfile "Epub Banner"
 	#https://patorjk.com/software/taag/#p=display&f=Shaded%20Blocky&t=MGMT
 	$OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8 
@@ -18,7 +20,9 @@ function Epub-Banner()
 	write-host -foregroundcolor blue "█  ████████  ████████  ████  ██  ████  █"
 	write-host -foregroundcolor blue "█        ██  █████████      ███       ██"
 	write-host -foregroundcolor blue "████████████████████████████████████████"
- 
+	
+	$epubcxt = . Get-Context
+	write-host $(. Get-Context)
 }
 
 Function Batch-Find-BigFileinEpub($path)
