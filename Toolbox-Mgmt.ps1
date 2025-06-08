@@ -116,8 +116,6 @@ function Get-Context()
 			Ctxt = $context
 			logfile = $logfile
 		}
-		
-		
 	}
 	catch [Exception]
 	{
