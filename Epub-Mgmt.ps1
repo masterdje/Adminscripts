@@ -27,9 +27,10 @@ function Epub-Banner()
 
 Function Batch-Find-BigFileinEpub($path)
 {
+	. Add-log $logfile "<Appel> BatchFindBigFileinEpub"
 	if ($path -eq $null){$path = "F:\livres\calibre\ebooks"}
 	write-host $path
-	break
+	#break
 	
 	[PSCustomObject] $cuObj = ""
 	$list = Get-ChildItem -Path $path -Filter "*.epub" -Recurse -File | Where-Object { $_.Length -gt 3MB } | Select-Object FullName, Length
@@ -62,6 +63,8 @@ Function Batch-Find-BigFileinEpub($path)
 
 Function Find-BigFileInEpub($file)
 {
+	. Add-log $logfile "<Appel>FindBigFileinEpub"
+	
 	[PSCustomObject] $cuObj = ""
 	[PSCustomObject] $cuObj =@()
 	$zip = Get-7Zip $file
@@ -78,10 +81,13 @@ Function Find-BigFileInEpub($file)
 
 Function Delete-SuspiciousFileInEpub($file)
 {
+	. Add-log $logfile "<Appel> Delete-SuspiciousFileInEpub"
+	
 	$list = Find-BigFileInEpub ($file)
 	$element=""
 	foreach ($element in ($list | where {$_.Suspiscious -eq $true})){ 
 		write-host $element.path $element.maxfile
 		& ${env:ProgramFiles}\7-Zip\7z.exe d $element.path $element.maxfile -y
+		. Add-log $logfile "<Action> Suppression de $element.maxfile"
 	}
 }
