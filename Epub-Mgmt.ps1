@@ -3,7 +3,7 @@
 
 . .\Toolbox-Mgmt.ps1
 $logFile = . create-Logfile
-. get-Context
+. get-Context | out-null
 
 
 function Epub-Banner()
@@ -86,8 +86,9 @@ Function Delete-SuspiciousFileInEpub($file)
 	$list = Find-BigFileInEpub ($file)
 	$element=""
 	foreach ($element in ($list | where {$_.Suspiscious -eq $true})){ 
-		write-host $element.path $element.maxfile
-		& ${env:ProgramFiles}\7-Zip\7z.exe d $element.path $element.maxfile -y
-		. Add-log $logfile "<Action> Suppression de $element.maxfile"
+		
+		& ${env:ProgramFiles}\7-Zip\7z.exe d $element.path $element.maxfile -y | Out-Null
+		write-host "<Action> Suppression de '$($element.maxfile)' dans '$($element.path)'"
+		. Add-log $logfile "<Action> Suppression de '$($element.maxfile)' dans '$($element.path)'"
 	}
 }
