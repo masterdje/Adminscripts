@@ -25,13 +25,11 @@ function Epub-Banner()
 	write-host $(. Get-Context)
 }
 
-Function Batch-Find-BigFileinEpub($path)
+Function Batch-Delete-BigFileinEpub($path)
 {
 	. Add-log $logfile "<Appel> BatchFindBigFileinEpub"
 	if ($path -eq $null){$path = "F:\livres\calibre\ebooks"}
 	write-host $path
-	#break
-	
 	[PSCustomObject] $cuObj = ""
 	$list = Get-ChildItem -Path $path -Filter "*.epub" -Recurse -File | Where-Object { $_.Length -gt 3MB } | Select-Object FullName, Length
 	#foreach ($file in $list) {& ${env:ProgramFiles}\7-Zip\7z.exe d $file.fullname content -y}
@@ -47,7 +45,7 @@ Function Batch-Find-BigFileinEpub($path)
 			Size = $maxsize
 			Suspiscious = if (($maxfile.toupper()  -like "*EPUB*") -OR ($maxfile.toupper()  -like "CONTENT") -OR ($maxfile.toupper()  -like "*.EXE*") -OR ($maxfile.toupper()  -like "* MB*")){$true} else {$false}
 		}
-		write-host "-Traitement de : " $file.fullname
+		#write-host "-Traitement de : " $file.fullname
 	}
 	#write-host $file.fullname ;
 	#if ($maxfile.ToUpper() -like "*EPUB")
@@ -57,7 +55,15 @@ Function Batch-Find-BigFileinEpub($path)
 	#& ${env:ProgramFiles}\7-Zip\7z.exe l $file.fullname }
 #	$cuobj
 
-	foreach ($element in ($cuobj | where {$_.maxfile.toupper()  -like "*EPUB*"})){ & ${env:ProgramFiles}\7-Zip\7z.exe d $element.path $element.maxfile -y}
+	$element=""
+	foreach ($element in ($cuobj | where {$_.Suspiscious -eq $true})){ 
+		
+		& ${env:ProgramFiles}\7-Zip\7z.exe d $element.path $element.maxfile -y | Out-Null
+		write-host "<Action> Suppression de '$($element.maxfile)' dans '$($element.path)'"
+		. Add-log $logfile "<Action> Suppression de '$($element.maxfile)' dans '$($element.path)'"
+	}
+
+#	foreach ($element in ($cuobj | where {$_.maxfile.toupper()  -like "*EPUB*"})){ & ${env:ProgramFiles}\7-Zip\7z.exe d $element.path $element.maxfile -y}
 
 }
 
