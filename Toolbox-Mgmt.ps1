@@ -67,6 +67,7 @@ function TimePing ()
 function Add-log
 {
 	param ($strlogfile, $logtext)
+	
 	try
 	{
 		[PSCustomObject] $cuLog = ""
@@ -114,7 +115,7 @@ function Get-Context()
 		[PSCustomObject] $cuCtxt =@()
 		$cuCtxt += [PSCustomObject] @{
 			Ctxt = $context
-			logfile = $logfile
+			logfile = $logfile #le pb !
 		}
 	}
 	catch [Exception]

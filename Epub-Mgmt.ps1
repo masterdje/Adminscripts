@@ -3,7 +3,7 @@
 
 . .\Toolbox-Mgmt.ps1
 $logFile = . create-Logfile
-. get-Context | out-null
+$context =  get-Context 
 
 
 function Epub-Banner()
@@ -21,8 +21,8 @@ function Epub-Banner()
 	write-host -foregroundcolor blue "█        ██  █████████      ███       ██"
 	write-host -foregroundcolor blue "████████████████████████████████████████"
 	
-	$epubcxt = . Get-Context
-	write-host $(. Get-Context)
+	$epubcxt =  Get-Context
+	write-host $epubcxt
 }
 
 Function Batch-Delete-BigFileinEpub($path)

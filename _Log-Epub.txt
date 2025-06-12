@@ -49,3 +49,5 @@
 "11/06/2025 22:38:07","Batch-Delete-BigFileinEpub","<Appel> BatchFindBigFileinEpub"
 "11/06/2025 22:41:01","Batch-Delete-BigFileinEpub","<Appel> BatchFindBigFileinEpub"
 "11/06/2025 22:41:01","Batch-Delete-BigFileinEpub","<Action> Suppression de 'content' dans 'C:\Users\sense\Downloads\La neuvieme Etape - Dawson, Mark.epub'"
+"12/06/2025 21:57:46","Sys-banner","Sys-Banner"
+"12/06/2025 22:02:08","Epub-Banner","Epub Banner"

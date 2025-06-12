@@ -3,7 +3,7 @@
 
 . .\Toolbox-Mgmt.ps1
 $logFile = . create-Logfile
-. get-Context
+$context =  get-Context 
 
 function Sys-banner()
 {
@@ -21,8 +21,8 @@ function Sys-banner()
 	write-host -foregroundcolor blue "██████████████████████████████████████████████████████████████████████"
 	#https://patorjk.com/software/taag/#p=display&f=Shaded%20Blocky&t=MGMT
 	
-	$syscxt = . Get-Context
-	write-host $(. Get-Context)
+	$syscxt =  Get-Context
+	write-host $syscxt
 }                                       
 
 <#
