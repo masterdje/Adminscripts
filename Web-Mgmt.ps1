@@ -1,3 +1,33 @@
+#-----------------Web Management
+#-----------------DSIN/SYS/JD----
+
+. .\Toolbox-Mgmt.ps1
+$logFile = . create-Logfile
+$context =  get-Context 
+
+
+function Web-Banner
+{
+	write-host $script:logfile
+	. Add-log $logfile "Web Banner"
+	#https://patorjk.com/software/taag/#p=display&f=Shaded%20Blocky&t=MGMT
+	
+	$OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8 
+	write-host -foregroundcolor blue "╔░ JD /  AdminScripts ░╗"
+	write-host -foregroundcolor blue "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+	write-host -foregroundcolor blue "░  ░░░░  ░░        ░░       ░░░  ░░░░  ░░░      ░░░  ░░░░  ░░        ░"
+	write-host -foregroundcolor blue "▒  ▒  ▒  ▒▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒   ▒▒   ▒▒  ▒▒▒▒▒▒▒▒   ▒▒   ▒▒▒▒▒  ▒▒▒▒"
+	write-host -foregroundcolor blue "▓        ▓▓      ▓▓▓▓       ▓▓▓        ▓▓  ▓▓▓   ▓▓        ▓▓▓▓▓  ▓▓▓▓"
+	write-host -foregroundcolor blue "█   ██   ██  ████████  ████  ██  █  █  ██  ████  ██  █  █  █████  ████"
+	write-host -foregroundcolor blue "█  ████  ██        ██       ███  ████  ███      ███  ████  █████  ████"
+	write-host -foregroundcolor blue "██████████████████████████████████████████████████████████████████████"                               
+	$webcxt =  Get-Context
+	write-host $webcxt
+}
+}
+
+
+
 function Web-Server ($path)
 {
 	$httpListener = New-Object System.Net.HttpListener
