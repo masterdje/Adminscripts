@@ -26,10 +26,9 @@ function Web-Banner
 }
 }
 
-
-
 function Web-Server ($path)
 {
+	. Add-log $logfile "Web Server Launch"
 	$httpListener = New-Object System.Net.HttpListener
 	$httpListener.Prefixes.Add("http://localhost:9090/")
 	$httpListener.Start()
