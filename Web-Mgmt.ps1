@@ -46,3 +46,9 @@ function Web-Server ($path)
 	}
 	$httpListener.Close()
 }
+
+function Web-New-Site($nom)
+{
+	. Add-log $logfile "New site"
+}
+
