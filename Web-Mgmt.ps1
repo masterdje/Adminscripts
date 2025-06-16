@@ -52,3 +52,14 @@ function Web-New-Site($nom)
 	. Add-log $logfile "New site"
 }
 
+function Web-Get-Configuration($file)
+{
+		. Add-log $logfile "Get Conf"
+}
+
+function Web-Set-Configuration($file)
+{
+		. Add-log $logfile "Set Conf"
+}
+
+
