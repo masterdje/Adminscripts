@@ -54,7 +54,23 @@ function Web-New-Site($nom)
 
 function Web-Get-Configuration($file)
 {
-		. Add-log $logfile "Get Conf"
+	. Add-log $logfile "Get Conf"
+	$configuration = @{}
+
+	Get-Content $file | ForEach-Object {
+		$_ = $_.Trim()
+		if (-not ($_ -like "#*" -or $_ -eq "")) 
+		{
+			$parts = $_ -split "=", 2
+			if ($parts.Count -eq 2) 
+			{
+				$key = $parts[0].Trim()
+				$value = $parts[1].Trim().Trim('"')
+				$configuration[$key] = $value
+			}
+		}
+	}
+	return $configuration
 }
 
 function Web-Set-Configuration($file)
