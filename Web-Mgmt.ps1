@@ -24,7 +24,7 @@ function Web-Banner
 	$webcxt =  Get-Context
 	write-host $webcxt
 }
-}
+
 
 function Web-Server ($path)
 {
@@ -72,6 +72,7 @@ function Web-Get-Configuration($file)
 	}
 	return $configuration
 }
+
 
 function Web-Set-Configuration($file)
 {
