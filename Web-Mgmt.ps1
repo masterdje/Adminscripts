@@ -79,11 +79,14 @@ function Web-Set-Configuration($file)
 		. Add-log $logfile "Set Conf"
 }
 
-function web-new-item($nom)
+function Web-New-Post($nom)
 {
 		. Add-log $logfile "New Item"
 }
 
-Fu
+Function Web-Upload-site()
+{
+		. Add-log $logfile "Upload Site"
+}
 
 
