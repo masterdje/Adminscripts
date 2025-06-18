@@ -79,4 +79,11 @@ function Web-Set-Configuration($file)
 		. Add-log $logfile "Set Conf"
 }
 
+function web-new-item
+{
+		. Add-log $logfile "New Item"
+}
+
+Fu
+
 
