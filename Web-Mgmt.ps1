@@ -50,6 +50,12 @@ function Web-Server ($path)
 function Web-New-Site($nom)
 {
 	. Add-log $logfile "New site"
+	
+	#Sanitize le nom 
+	#cree un dossier
+	#cree un .ini vide
+	#cree la structure des dossiers
+	#
 }
 
 function Web-Get-Configuration($file)
