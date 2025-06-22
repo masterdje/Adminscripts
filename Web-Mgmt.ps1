@@ -26,7 +26,7 @@ function Web-Banner
 }
 
 
-function Web-Server ($path)
+function Web-Start-Server ($path)
 {
 	. Add-log $logfile "Web Server Launch"
 	$httpListener = New-Object System.Net.HttpListener
@@ -95,4 +95,12 @@ Function Web-Upload-site()
 		. Add-log $logfile "Upload Site"
 }
 
+function Web-Set-Current-Site()
+{
+		. Add-log $logfile "Set CurrentSite"
+}
 
+function Web-Get-Current-Site()
+{
+		. Add-log $logfile "Get CurrentSite"
+}
