@@ -39,7 +39,30 @@ function Get-WinRMTest()
         #Write-Host "$Computername online"
 }
 
+function Get-Sha256()
+{
+	Param
+    (
+        $file
+    )
+	
+	Return (get-filehash -Algorithm SHA256 $file).hash
 
+}
+
+function Compare-share256 ($file1, $file2)
+{
+	$sha1=Get-SHA256($file1)
+	$sha2=Get-SHA256($file2)
+	if ($sha1 -eq $sha2) 
+	{
+		write-host "Fichiers identiques"
+	}
+	else
+	{
+		write-host "Fichiers Differents"
+	}
+}	
 
 function TimePing ()
 {
