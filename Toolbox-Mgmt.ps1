@@ -4,13 +4,31 @@
 
 function List-Function ($filename)
 {
-cat $filename | Select-String -pattern "function" | sort
+	#Hygiene de code
+	
+	return cat $filename | Select-String -pattern "function" | sort
+}
+
+function Check-Verbs($filename)
+{
+	#Hygiene de code
+	
+	$verbs = @("get","set","compare","list","add","new","prout","remove","find","banner","check")
+	$errlist="";$errlist =@()
+	foreach ($func in List-Function($filename))
+	{
+		if (($func | select-string -pattern $verbs) -eq $null) {$errlist += $func}
+	}
+	return $errlist
+	
 }
 
 
 function Get-OnlineTest()
 {
-    Param
+    #Outil
+	
+	Param
     (
         $Computername
     )
