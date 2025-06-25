@@ -36,7 +36,7 @@ Function New-SecurePassword()
 		$pwd = Read-Host "Enter a Password"  -maskinput
 		$SecurePwd = ConvertTo-SecureString -String $Pwd -AsPlainText -Force
 		$EncryptedPwd = ConvertFrom-SecureString -SecureString $SecurePwd
-		return $EncryptedPwd #| Out-File -FilePath "\\vmp-ld31-dip01\App_DIPP\LD31\INTERFACES-GRC\access.txt"
+		return $EncryptedPwd #| Out-File -FilePath "\\cred.txt"
 	}
 	catch [Exception]
 	{
