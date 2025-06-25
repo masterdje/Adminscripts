@@ -12,17 +12,37 @@ function List-Function ($filename)
 function Check-Verbs($filename)
 {
 	#Hygiene de code
-	
-	$verbs = @("get","set","compare","list","add","new","prout","remove","find","banner","check")
-	$errlist="";$errlist =@()
-	foreach ($func in List-Function($filename))
+	try
 	{
-		if (($func | select-string -pattern $verbs) -eq $null) {$errlist += $func}
+		$verbs = @("get","set","compare","list","add","new","prout","remove","find","banner","check")
+		$errlist="";$errlist =@()
+		foreach ($func in List-Function($filename))
+		{
+			if (($func | select-string -pattern $verbs) -eq $null) {$errlist += $func}
+		}
+		return $errlist
 	}
-	return $errlist
-	
+	catch [Exception]
+	{
+		$Error.Exception.Message
+	}
 }
-
+Function New-SecurePassword()
+{
+	#Outils
+	
+	try
+	{
+		$pwd = Read-Host "Enter a Password"  -maskinput
+		$SecurePwd = ConvertTo-SecureString -String $Pwd -AsPlainText -Force
+		$EncryptedPwd = ConvertFrom-SecureString -SecureString $SecurePwd
+		return $EncryptedPwd #| Out-File -FilePath "\\vmp-ld31-dip01\App_DIPP\LD31\INTERFACES-GRC\access.txt"
+	}
+	catch [Exception]
+	{
+		$Error.Exception.Message
+	}
+}
 
 function Get-OnlineTest()
 {
