@@ -6,7 +6,7 @@ function List-Function ($filename)
 {
 	#Hygiene de code
 	
-	return cat $filename | Select-String -pattern "function" | sort
+	return cat $filename | Select-String -pattern "function " | sort
 }
 
 function Check-Verbs($filename)
@@ -296,7 +296,7 @@ function Convert-RGBtoABGR
      return $abgr
  }
 
- function Set-AsAdmin()
+function Set-AsAdmin()
 {    
 	#Outils
 
