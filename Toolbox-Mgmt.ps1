@@ -1,4 +1,4 @@
-#-----------------Toolbox Management
+﻿#-----------------Toolbox Management
 #-------------------DSIN/SYS/JD-----
 
 
@@ -67,7 +67,9 @@ function Get-OnlineTest()
 
 function Get-WinRMTest()
 {
-    Param
+    #Outils
+	
+	Param
     (
         $Computername
     )
@@ -77,8 +79,10 @@ function Get-WinRMTest()
         #Write-Host "$Computername online"
 }
 
-function Get-Sha256()
+function Get-SHA256()
 {
+	#Outils
+	
 	Param
     (
         $file
@@ -88,8 +92,10 @@ function Get-Sha256()
 
 }
 
-function Compare-share256 ($file1, $file2)
+function Compare-SHA256 ($file1, $file2)
 {
+	#Outils
+	
 	$sha1=Get-SHA256($file1)
 	$sha2=Get-SHA256($file2)
 	if ($sha1 -eq $sha2) 
@@ -104,6 +110,8 @@ function Compare-share256 ($file1, $file2)
 
 function TimePing ()
 {
+	#Outils
+	
     Param
     (
         $computername
@@ -127,6 +135,8 @@ function TimePing ()
 
 function Add-log
 {
+	#Outils
+	
 	param ($strlogfile, $logtext)
 	
 	try
@@ -152,7 +162,8 @@ function Add-log
 
 function Create-Logfile()
 {
-	
+	#Outils
+		
 	try
 	{	$callstack = Get-PSCallStack
 		$cmdpath = $callstack[-2].command
@@ -167,6 +178,8 @@ function Create-Logfile()
 
 function Get-Context()
 {
+	#Outils
+	
 	try
 	{
 		$callstack = Get-PSCallStack
@@ -189,7 +202,10 @@ function Get-Context()
 }
 
 function Git-Save ($Message)
-{   $date= get-date
+{   
+	#Outils
+
+	$date= get-date
     $message = "MAJ: " +  $message + " " + $date
 	. git add *
 	. git commit -m $message
@@ -198,16 +214,23 @@ function Git-Save ($Message)
 
 function Git-Load
 {
+	#Outils
+	
 	. git pull
 }
 
 function Git-Check
 {
+	#Outils
+	
     if (((. git status) | select-string -Pattern ".ps1").count -ne 0){write-host "Git Save nécessaire !"}
 }
 
 
-function Write-Color([String[]]$Text, [ConsoleColor[]]$Color) {
+function Write-Color([String[]]$Text, [ConsoleColor[]]$Color)
+{
+	#Outils
+	
     for ($i = 0; $i -lt $Text.Length; $i++) {
         Write-Host $Text[$i] -Foreground $Color[$i] -NoNewLine
     }
@@ -215,28 +238,27 @@ function Write-Color([String[]]$Text, [ConsoleColor[]]$Color) {
 }
 
 function Remove-StringSpecialCharacters
-{
-   param ([string]$String)
+{ 
+	#Outils
 
-   Begin{}
-
-   Process {
-
-      $String = [Text.Encoding]::ASCII.GetString([Text.Encoding]::GetEncoding("Cyrillic").GetBytes($String))
-
-      $String = $String -replace '-', '' `
+	param ([string]$String)
+	Begin{}
+	Process {
+		$String = [Text.Encoding]::ASCII.GetString([Text.Encoding]::GetEncoding("Cyrillic").GetBytes($String))
+		$String = $String -replace '-', '' `
                         -replace ' ', '' `
                         -replace '/', '' `
                         -replace '\*', '' `
                         -replace "'", "" 
-   }
-
-   End{
+	}
+	End{
       return $String
-      }
+    }
 }
 function SleepBar ( $timer , $Description )
 {
+    #Outils
+
     #timer = des secondes ... 
     $interval = ($timer*10) 
     for ($i = 1; $i -le 100; $i++ ) {                                                               
@@ -245,8 +267,11 @@ function SleepBar ( $timer , $Description )
     }
 }
 
-function Convert-RGBtoABGR {
-     param (
+function Convert-RGBtoABGR 
+{	
+	#Outils
+    
+	param (
          [Parameter(Mandatory=$true)]
          [ValidateRange(0,255)]
          [int]$R,
@@ -272,6 +297,44 @@ function Convert-RGBtoABGR {
  }
 
  function Set-AsAdmin()
+{    
+	#Outils
+
+	if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+}
+
+function New-StrongPassword
 {
-		if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+	#Outils
+	
+	param (
+        [Parameter(Mandatory = $true)]
+        [ValidateRange(4, 128)]
+        [int]$Length
+    )
+
+    # Groupes de caractères
+    $lower = 'abcdefghijklmnopqrstuvwxyz'.ToCharArray()
+    $upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.ToCharArray()
+    $digits = '0123456789'.ToCharArray()
+    $special = '!@#$%^&*()-_=+[]{}|;:,.<>?'.ToCharArray()
+
+    # Sélection d’un caractère de chaque groupe
+    $mandatoryChars = @(
+        Get-Random -InputObject $lower
+        Get-Random -InputObject $upper
+        Get-Random -InputObject $digits
+        Get-Random -InputObject $special
+    )
+
+    # Tous les caractères possibles
+    $allChars = $lower + $upper + $digits + $special
+
+    # Générer les caractères restants
+    $remainingLength = $Length - $mandatoryChars.Count
+    $randomChars = 1..$remainingLength | ForEach-Object { Get-Random -InputObject $allChars }
+
+    # Combiner et mélanger
+    $finalPassword = ($mandatoryChars + $randomChars) | Sort-Object { Get-Random }
+    return -join $finalPassword
 }
