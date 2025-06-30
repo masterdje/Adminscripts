@@ -189,21 +189,46 @@ function Get-Context()
 }
 
 function Git-Save ($Message)
-{   $date= get-date
-    $message = "MAJ: " +  $message + " " + $date
-	. git add *
-	. git commit -m $message
-	. git push
+{   
+	# Outils
+	try
+	{
+		$date= get-date
+		$message = "MAJ: " +  $message + " " + $date
+		. git add *
+		. git commit -m $message
+		. git push
+	}
+	catch [Exception]
+	{
+		Add-content -encoding UTF8 -path "LogErrors.csv" -value((get-date).tostring() + " , " +  $_.Exception.Message)
+	}
 }
 
 function Git-Load
 {
+	# Outils
+	try
+	{		
 	. git pull
+	}
+	catch [Exception]
+	{
+		Add-content -encoding UTF8 -path "LogErrors.csv" -value((get-date).tostring() + " , " +  $_.Exception.Message)
+	}
 }
 
 function Git-Check
 {
-    if (((. git status) | select-string -Pattern ".ps1").count -ne 0){write-host "Git Save nécessaire !"}
+    # Outils
+	try
+	{
+		if (((. git status) | select-string -Pattern ".ps1").count -ne 0){write-host "Git Save nécessaire !"}
+	}
+	catch [Exception]
+	{
+		Add-content -encoding UTF8 -path "LogErrors.csv" -value((get-date).tostring() + " , " +  $_.Exception.Message)
+	}
 }
 
 
