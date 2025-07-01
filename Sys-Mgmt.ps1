@@ -52,11 +52,22 @@ function Update-All()
 	}
 }
 
-Function SysMgmt-Update-itNow()
+Function Sys-Update-itNow()
 {
+	try
+	{
 	. set-AsAdmin
 	. Sys-banner
 	. Update-All
+	}
+	catch
+	{
+		$Error.Exception.Message
+	}
+	finally
+	{
+		$Error.Clear()
+	}
 }
 
 Function Fresh-Install()
