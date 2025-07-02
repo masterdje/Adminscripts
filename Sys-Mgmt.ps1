@@ -54,12 +54,12 @@ function Update-All()
 
 Function Sys-Update-itNow()
 {
-	try
-	{
-	. set-AsAdmin
-	. Sys-banner
+	<#try
+	{#>
+	Check-RunAsAdministrator
+	 Sys-banner
 	. Update-All
-	}
+	<#}
 	catch
 	{
 		$Error.Exception.Message
@@ -67,7 +67,7 @@ Function Sys-Update-itNow()
 	finally
 	{
 		$Error.Clear()
-	}
+	}#>
 }
 
 Function Fresh-Install()
