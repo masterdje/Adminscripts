@@ -7,7 +7,6 @@ $context =  get-Context
 
 function Sys-banner()
 {
-	write-host $script:logfile
 	. Add-log $logfile "Sys-Banner"
 	$OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8 
 	
@@ -21,8 +20,6 @@ function Sys-banner()
 	write-host -foregroundcolor blue "██████████████████████████████████████████████████████████████████████"
 	#https://patorjk.com/software/taag/#p=display&f=Shaded%20Blocky&t=MGMT
 	
-	$syscxt =  Get-Context
-	write-host $syscxt
 }                                       
 
 <#
