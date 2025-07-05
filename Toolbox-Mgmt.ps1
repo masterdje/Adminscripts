@@ -367,7 +367,9 @@ function New-StrongPassword
 	
 Function Check-RunAsAdministrator()
 {
-  #Get current user context
+		if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
+
+  <#Get current user context
   $CurrentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
   
   #Check user is running the script is member of Administrator Group
@@ -391,7 +393,6 @@ Function Check-RunAsAdministrator()
  
        #Exit from the current, unelevated, process
        Exit
- 
-    }
+    } #>
 }
  
