@@ -31,7 +31,7 @@ Function Batch-Delete-BigFileinEpub($path)
 	if ($path -eq $null){$path = "F:\livres\calibre\ebooks"}
 	write-host $path
 	[PSCustomObject] $cuObj = ""
-	$list = Get-ChildItem -Path $path -Filter "*.epub" -Recurse -File | Where-Object { $_.Length -gt 3MB } | Select-Object FullName, Length
+	$list = Get-ChildItem -Path $path -Filter "*.epub" -Recurse -File | Where-Object { $_.Length -gt 2MB } | Select-Object FullName, Length
 	#foreach ($file in $list) {& ${env:ProgramFiles}\7-Zip\7z.exe d $file.fullname content -y}
 	[PSCustomObject] $cuObj =@()
 	foreach ($file in $list) 

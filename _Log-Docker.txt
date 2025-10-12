@@ -1,0 +1,2 @@
+"Date","Invocation","Log"
+"26/08/2025 22:53:00","Docker-Banner","Docker Banner"
