@@ -43,7 +43,7 @@ Function Batch-Delete-BigFileinEpub($path)
 			Path = $file.fullname 
 			Maxfile = $maxfile
 			Size = $maxsize
-			Suspiscious = if (($maxfile.toupper()  -like "*EPUB*") -OR ($maxfile.toupper()  -like "CONTENT") -OR ($maxfile.toupper()  -like "*.EXE*") -OR ($maxfile.toupper()  -like "* MB*")){$true} else {$false}
+			Suspiscious = if (($maxfile.toupper()  -like "*EPUB*") -OR ($maxfile.toupper()  -like "*CONTENT") -OR ($maxfile.toupper()  -like "*.EXE*") -OR ($maxfile.toupper()  -like "*XLS*") -OR ($maxfile.toupper()  -like "* MB*")  -OR ($maxfile.toupper()  -like "CONTENT (2)") -OR ($maxfile.toupper()  -like "*PDF*")){$true} else {$false}
 		}
 		#write-host "-Traitement de : " $file.fullname
 	}
@@ -80,7 +80,7 @@ Function Find-BigFileInEpub($file)
 		Path = $file
 		Maxfile = $maxfile
 		Size = $maxsize
-		Suspiscious = if (($maxfile.toupper()  -like "*EPUB*") -OR ($maxfile.toupper()  -like "CONTENT") -OR ($maxfile.toupper()  -like "*.EXE*") -OR ($maxfile.toupper()  -like "* MB*")){$true} else {$false}
+		Suspiscious = if (($maxfile.toupper()  -like "*EPUB*") -OR ($maxfile.toupper()  -like "*CONTENT") -OR ($maxfile.toupper()  -like "*.EXE*")  -OR ($maxfile.toupper()  -like "*XLS*") -OR ($maxfile.toupper()  -like "* MB*") -OR ($maxfile.toupper()  -like "CONTENT (2)") -OR ($maxfile.toupper()  -like "*PDF*") ){$true} else {$false}
 	}
 	return $cuobj
 }
